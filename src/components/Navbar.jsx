@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
+import Magnetic from './effects/Magnetic'
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
@@ -29,22 +30,26 @@ export default function Navbar() {
       scrolled ? 'backdrop-blur-xl bg-black/40 border-b border-white/10' : 'bg-transparent'
     )}>
       <nav className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-        <a href="#" className="text-lg font-bold tracking-widest text-white/90 hover:text-white transition">
-          UNKAR <span className="text-white">MEDIA</span>
-        </a>
+        <Magnetic>
+          <a href="#" className="text-lg font-bold tracking-widest text-white/90 hover:text-white transition hover-glow">
+            UNKAR <span className="text-white">MEDIA</span>
+          </a>
+        </Magnetic>
 
         <div className="hidden md:flex items-center gap-8">
           {links.map(l => (
-            <a key={l.href} href={l.href} className="text-sm text-white/70 hover:text-white transition relative">
+            <a key={l.href} href={l.href} className="text-sm text-white/70 hover:text-white transition relative group">
               <span className="relative">
                 {l.label}
                 <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-violet-500 transition-all group-hover:w-full" />
               </span>
             </a>
           ))}
-          <a href="#contact" className="px-4 py-2 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-cyan-400/40 hover:bg-white/10 shadow-[0_0_0_0_rgba(0,0,0,0)] hover:shadow-[0_0_30px_0_rgba(56,189,248,0.25)] transition">
-            Start a Project
-          </a>
+          <Magnetic>
+            <a href="#contact" className="px-4 py-2 rounded-full text-sm font-medium text-white bg-white/5 border border-white/10 hover:border-cyan-400/40 hover:bg-white/10 hover-glow transition">
+              Start a Project
+            </a>
+          </Magnetic>
         </div>
 
         <button className="md:hidden text-white/80 hover:text-white" onClick={() => setOpen(v => !v)} aria-label="Toggle menu">

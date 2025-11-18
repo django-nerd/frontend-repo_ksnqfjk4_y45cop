@@ -6,10 +6,12 @@ import Testimonials from './components/Testimonials'
 import Numbers from './components/Numbers'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import CursorSpotlight from './components/effects/CursorSpotlight'
 
 function App() {
   return (
     <div className="min-h-screen bg-black text-white">
+      <CursorSpotlight />
       <Navbar />
       <main>
         <Hero />

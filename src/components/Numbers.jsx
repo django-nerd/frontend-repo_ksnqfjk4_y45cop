@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 function useCountUp(end, duration = 1800) {
   const ref = useRef(null)
@@ -23,6 +24,7 @@ export default function Numbers() {
   const assetsRef = useCountUp(10_000)
   const campaignsRef = useCountUp(50)
   const retentionRef = useCountUp(95)
+  const reduce = useReducedMotion()
 
   return (
     <section id="numbers" className="relative py-24 bg-black">
@@ -34,37 +36,28 @@ export default function Numbers() {
         </div>
 
         <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6">
-            <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
-            <div className="relative">
-              <div className="text-3xl font-semibold text-white"><span ref={reachRef} />+</div>
-              <p className="mt-2 text-white/70">Total Reach</p>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6">
-            <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
-            <div className="relative">
-              <div className="text-3xl font-semibold text-white"><span ref={assetsRef} />+</div>
-              <p className="mt-2 text-white/70">Assets Delivered</p>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6">
-            <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
-            <div className="relative">
-              <div className="text-3xl font-semibold text-white"><span ref={campaignsRef} />+</div>
-              <p className="mt-2 text-white/70">Enterprise Campaigns</p>
-            </div>
-          </div>
-
-          <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6">
-            <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
-            <div className="relative">
-              <div className="text-3xl font-semibold text-white"><span ref={retentionRef} />%</div>
-              <p className="mt-2 text-white/70">Client Retention</p>
-            </div>
-          </div>
+          {[
+            { label: 'Total Reach', ref: reachRef, suffix: '+' },
+            { label: 'Assets Delivered', ref: assetsRef, suffix: '+' },
+            { label: 'Enterprise Campaigns', ref: campaignsRef, suffix: '+' },
+            { label: 'Client Retention', ref: retentionRef, suffix: '%' },
+          ].map((card, i) => (
+            <motion.div
+              key={card.label}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
+              whileInView={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6 will-change-transform"
+              whileHover={reduce ? {} : { scale: 1.02 }}
+            >
+              <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
+              <div className="relative">
+                <div className="text-3xl font-semibold text-white"><span ref={card.ref} />{card.suffix}</div>
+                <p className="mt-2 text-white/70">{card.label}</p>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

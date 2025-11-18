@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 const testimonials = [
   {
@@ -19,6 +19,7 @@ const testimonials = [
 ]
 
 export default function Testimonials() {
+  const reduce = useReducedMotion()
   return (
     <section id="testimonials" className="relative py-24 bg-[#07070a]">
       <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(900px_300px_at_50%_100%,rgba(56,189,248,0.06),transparent)]" />
@@ -32,11 +33,12 @@ export default function Testimonials() {
           {testimonials.map((t, i) => (
             <motion.blockquote
               key={t.name}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 18 }}
+              whileInView={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6 hover:border-cyan-400/30 hover:bg-white/10 transition"
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6 hover:border-cyan-400/30 hover:bg-white/10 transition will-change-transform"
+              whileHover={reduce ? {} : { rotateX: 2, rotateY: 2, scale: 1.02 }}
             >
               <div className="absolute -inset-1 opacity-0 group-hover:opacity-100 transition blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
               <div className="relative">

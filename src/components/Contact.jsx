@@ -1,7 +1,10 @@
 import { useState } from 'react'
+import Magnetic from './effects/Magnetic'
+import { motion, useReducedMotion } from 'framer-motion'
 
 export default function Contact() {
   const [sent, setSent] = useState(false)
+  const reduce = useReducedMotion()
 
   const onSubmit = (e) => {
     e.preventDefault()
@@ -28,7 +31,13 @@ export default function Contact() {
             </ul>
           </div>
 
-          <form onSubmit={onSubmit} className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6">
+          <motion.form
+            onSubmit={onSubmit}
+            initial={reduce ? { opacity: 1 } : { opacity: 0, y: 18 }}
+            whileInView={reduce ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur p-6"
+          >
             <div className="absolute -inset-1 blur-2xl bg-gradient-to-r from-cyan-500/10 via-fuchsia-500/10 to-violet-500/10" />
             <div className="relative grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
@@ -48,14 +57,16 @@ export default function Contact() {
                 <textarea required rows={4} className="w-full rounded-lg bg-black/40 border border-white/10 text-white placeholder-white/40 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-cyan-400/40" placeholder="Editing, motion design, full production, strategy…" />
               </div>
               <div className="sm:col-span-2 flex items-center justify-between">
-                <button type="submit" className="group relative inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white backdrop-blur border border-white/10 bg-white/5 hover:border-cyan-400/40 transition">
-                  <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/0 via-fuchsia-500/0 to-violet-500/0 group-hover:from-cyan-400/20 group-hover:via-fuchsia-500/10 group-hover:to-violet-500/20 blur-md" />
-                  <span className="relative">Send inquiry</span>
-                </button>
+                <Magnetic>
+                  <button type="submit" className="group relative inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white backdrop-blur border border-white/10 bg-white/5 hover:border-cyan-400/40 transition hover-glow">
+                    <span className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400/0 via-fuchsia-500/0 to-violet-500/0 group-hover:from-cyan-400/20 group-hover:via-fuchsia-500/10 group-hover:to-violet-500/20 blur-md" />
+                    <span className="relative">Send inquiry</span>
+                  </button>
+                </Magnetic>
                 {sent && <span className="text-xs text-emerald-400">Sent. We’ll reply shortly.</span>}
               </div>
             </div>
-          </form>
+          </motion.form>
         </div>
       </div>
     </section>
